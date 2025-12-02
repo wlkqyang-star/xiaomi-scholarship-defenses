@@ -37,7 +37,7 @@ function App() {
         <div className="absolute top-10 left-6 md:left-24 flex items-center gap-4 opacity-80">
            <img src={img14} alt="Xiaomi Logo" className="w-10 h-10 rounded-xl object-contain shadow-lg" />
            <div className="h-8 w-px bg-white/20"></div>
-           <div className="text-xs font-mono tracking-[0.2em] text-azure-card text-glow">小米专项奖学金答辩</div>
+           <div className="text-xs font-mono tracking-[0.2em] text-azure-card text-glow">小米特等奖学金答辩</div>
         </div>
 
         <div className="max-w-5xl z-10 animate-float">
@@ -81,7 +81,7 @@ function App() {
           <span className="text-6xl font-black text-white/5 font-mono -mb-2">01</span>
           <div>
             <h2 className="text-4xl font-bold text-white mb-1">
-              <span className="text-azure-orange">科研交叉融合</span> 创新
+              <span className="text-azure-orange">交叉融合</span> 创新
             </h2>
             <p className="text-azure-card font-mono text-sm">科研项目</p>
           </div>
@@ -111,7 +111,7 @@ function App() {
           <span className="text-6xl font-black text-white/5 font-mono -mb-2">02</span>
           <div>
             <h2 className="text-4xl font-bold text-white mb-1">
-              <span className="text-cyan-300">前沿引领</span> 创新
+              <span className="text-cyan-300">交叉融合</span> 创新
             </h2>
             <p className="text-azure-card font-mono text-sm">竞赛表现</p>
           </div>
@@ -123,12 +123,12 @@ function App() {
              <div className="flex-1 p-8 rounded-2xl bg-gradient-to-br from-azure-orange to-orange-700 text-white shadow-lg relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
                 <div className="relative z-10">
-                  <div className="text-7xl font-sans font-bold mb-2">x<span className="text-4xl opacity-80">3</span></div>
+                  <div className="text-7xl font-sans font-bold mb-2">3<span className="text-4xl opacity-80">+</span></div>
                   <div className="text-lg font-medium tracking-wide">全国一等奖</div>
                 </div>
              </div>
              <div className="flex-1 p-8 rounded-2xl glass-panel text-center flex flex-col justify-center items-center">
-                <div className="text-5xl font-sans text-azure-cream font-bold mb-2">x<span className="text-3xl opacity-60">2</span></div>
+                <div className="text-5xl font-sans text-azure-cream font-bold mb-2">2<span className="text-3xl opacity-60">+</span></div>
                 <div className="text-sm text-azure-card tracking-wider">全国二等奖</div>
              </div>
           </div>
@@ -277,9 +277,9 @@ function App() {
           <span className="text-6xl font-black text-white/5 font-mono -mb-2">04</span>
           <div>
             <h2 className="text-4xl font-bold text-white mb-1">
-              知识与 <span className="text-cyan-300">行动</span>
+              知行合一 <span className="text-cyan-300">创新</span>
             </h2>
-            <p className="text-azure-card font-mono text-sm">社会实践与领导力</p>
+            <p className="text-azure-card font-mono text-sm">社会实践与学生工作</p>
           </div>
         </div>
 
