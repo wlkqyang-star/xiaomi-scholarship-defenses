@@ -11,82 +11,85 @@ const Background: React.FC = () => {
 
     let width = window.innerWidth;
     let height = window.innerHeight;
+    let frame = 0;
+    let raf = 0;
     canvas.width = width;
     canvas.height = height;
 
-    // "Azure Future Tech" Palette
-    const bgBase = '#234594';
-    const bgDark = '#1a3370';
-    
-    const particles: { x: number; y: number; vx: number; vy: number; size: number, color: string }[] = [];
-    const particleCount = 80;
+    const particles: { x: number; y: number; vx: number; vy: number; size: number; color: string }[] = [];
+    const particleCount = 92;
 
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < particleCount; i += 1) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        size: Math.random() * 2 + 0.5,
-        color: Math.random() > 0.8 ? '#fe8a0e' : '#9db3e5', // Orange highlight or Soft Blue
+        vx: (Math.random() - 0.5) * 0.36,
+        vy: (Math.random() - 0.5) * 0.36,
+        size: Math.random() * 2 + 0.45,
+        color: Math.random() > 0.78 ? '#f0c35b' : '#9db3e5',
       });
     }
 
     const draw = () => {
-      // Create subtle gradient background
-      const grad = ctx.createLinearGradient(0, 0, 0, height);
-      grad.addColorStop(0, bgBase);
-      grad.addColorStop(1, bgDark);
+      frame += 1;
+      const grad = ctx.createLinearGradient(0, 0, width, height);
+      grad.addColorStop(0, '#111d46');
+      grad.addColorStop(0.5, '#234594');
+      grad.addColorStop(1, '#1a3370');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
-      // Draw connections
-      ctx.strokeStyle = 'rgba(157, 179, 229, 0.15)'; // Soft blue low opacity
+      const glow = ctx.createRadialGradient(width * 0.18, height * 0.16, 0, width * 0.18, height * 0.16, width * 0.55);
+      glow.addColorStop(0, 'rgba(240, 195, 91, 0.18)');
+      glow.addColorStop(1, 'rgba(240, 195, 91, 0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = 'rgba(157, 179, 229, 0.14)';
       ctx.lineWidth = 0.5;
-      
-      for (let i = 0; i < particleCount; i++) {
+
+      for (let i = 0; i < particleCount; i += 1) {
         const p = particles[i];
-        
-        // Move
         p.x += p.vx;
         p.y += p.vy;
 
-        // Bounce
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Draw particle
         ctx.fillStyle = p.color;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
 
-        // Connect
-        for (let j = i + 1; j < particleCount; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
+        for (let j = i + 1; j < particleCount; j += 1) {
+          const other = particles[j];
+          const dx = p.x - other.x;
+          const dy = p.y - other.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < 150) {
+            ctx.globalAlpha = 1 - dist / 150;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
+            ctx.lineTo(other.x, other.y);
             ctx.stroke();
+            ctx.globalAlpha = 1;
           }
         }
       }
-      
-      // Floating data grid effect at bottom
-      const gridHeight = height * 0.15;
-      const gridY = height - gridHeight;
-      const gridGrad = ctx.createLinearGradient(0, gridY, 0, height);
-      gridGrad.addColorStop(0, 'rgba(35, 69, 148, 0)');
-      gridGrad.addColorStop(1, 'rgba(157, 179, 229, 0.1)');
-      ctx.fillStyle = gridGrad;
-      ctx.fillRect(0, gridY, width, gridHeight);
 
-      requestAnimationFrame(draw);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.045)';
+      ctx.lineWidth = 1;
+      const gap = 44;
+      const offset = frame % gap;
+      for (let y = height - height * 0.28 + offset; y < height + gap; y += gap) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y - 90);
+        ctx.stroke();
+      }
+
+      raf = requestAnimationFrame(draw);
     };
 
     draw();
@@ -99,15 +102,13 @@ const Background: React.FC = () => {
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  return (
-    <canvas 
-      ref={canvasRef} 
-      className="fixed top-0 left-0 w-full h-full -z-10"
-    />
-  );
+  return <canvas ref={canvasRef} className="fixed inset-0 -z-10 h-full w-full" />;
 };
 
 export default Background;
